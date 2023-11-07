@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../blocs/bloc.dart';
 import '../blocs/provider.dart';
+
 class LoginTela extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
@@ -66,11 +67,16 @@ class LoginTela extends StatelessWidget{
   }
 
   
-  Widget submitButton(Bloc bloc){  
-    return ElevatedButton(
-      onPressed: (){}, 
-      child: Text('Login'),      
-    );
+  Widget submitButton(Bloc bloc){ 
+    return StreamBuilder(
+      stream: bloc.emailPasswordAreOk,
+      builder: (context, AsyncSnapshot <bool> snapshot){
+        return ElevatedButton(
+          onPressed: snapshot.hasData ? bloc.submitForm : null, 
+          child: Text('Login'),      
+        );
+      },
+    ); 
   }
  
 }
